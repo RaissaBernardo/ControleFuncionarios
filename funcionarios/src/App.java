@@ -7,7 +7,7 @@ import entity.FuncionarioClt;
 public class App {
 
     static ArrayList<Setor> setores = new ArrayList<>();
-    static ArrayList<Funcionario> funcionarios = new ArrayList<>();
+    static ArrayList<Funcionario> funcionarios = new ArrayList<>();;
 
     public static void menuFuncionarios() {
         Scanner scanner = new Scanner(System.in);
@@ -91,6 +91,42 @@ public class App {
                     setores.get(codigoA).adicionarFuncionario(novoCpf);
                     break;
                 case 5:
+                    Funcionario funcionario = null;
+
+                    try {
+                        for (Funcionario f : funcionarios) {
+                            if (f.getCpf().equals(cpf)) {
+                                funcionario = f;
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        if (funcionario == null) {
+                            System.out.println("Funcionário não encontrado!");
+                            return;
+                        }
+                    }
+
+                    double salarioLiquido = funcionario.calcularSalarioLiquido();
+                
+                    System.out.println("\n=== HOLERITE ===");
+                    System.out.println("Nome: " + funcionario.getNome());
+                    System.out.println("CPF: " + funcionario.getCpf());
+                    System.out.println("Cargo: " + (funcionario instanceof FuncionarioClt ? "Funcionário CLT" : "Outro Cargo"));
+                    System.out.println("-------------------------------------------------");
+                    System.out.println("Salário Base: R$ " + funcionario.getSalarioBase());
+                    System.out.println("INSS: " + funcionario.getInss());
+                    System.out.println("IRRF: " + funcionario.getIrrf());
+
+                    if (funcionario instanceof FuncionarioClt) { //o instaceof vai retornar um valor booleano
+                        FuncionarioClt cltFuncionario = (FuncionarioClt) funcionario;
+                        System.out.println("Vale Alimentação: R$ " + cltFuncionario.getValeAlimentacao());
+                        System.out.println("Vale Transporte: R$ " + cltFuncionario.getValeTransporte());
+                    }
+                
+                    System.out.println("-------------------------------------------------");
+                    System.out.println("Salário Líquido: R$ " + salarioLiquido);
+                case 6:
                     menu();
                     break;
                 default:
