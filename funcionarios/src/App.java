@@ -72,9 +72,9 @@ public class App {
                     Integer codigoV = scanner.nextInt();
 
                     System.out.println("Funcionários do setor " + setores.get(codigoV).getNome() + ":");
-                    for (String cpf : setores.get(codigoV).getFuncionarios()) {
+                    for (String cpff : setores.get(codigoV).getFuncionarios()) {
                         for (Funcionario f : funcionarios) {
-                            if (f.getCpf().equals(cpf)) {
+                            if (f.getCpf().equals(cpff)) {
                                 System.out.println("- " + f);
                                 break;
                             }
