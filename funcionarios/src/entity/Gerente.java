@@ -1,7 +1,6 @@
 package entity;
 
 public class Gerente extends FuncionarioClt{
-    private String departamento;
     private int quantidadeSubordinados;
     private double percentualBonus;
 
@@ -11,19 +10,12 @@ public class Gerente extends FuncionarioClt{
 
     //construtor com parametros
     public Gerente(String departamento, int quantidadeSubordinados, double percentualBonus) {
-        this.departamento = departamento;
         this.quantidadeSubordinados = quantidadeSubordinados;
         this.percentualBonus = percentualBonus;
     }
 
     //get e set
-    public String getDepartamento() {
-        return departamento;
-    }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
-    }
     public int getQuantidadeSubordinados() {
         return quantidadeSubordinados;
     }
