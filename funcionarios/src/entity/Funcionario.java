@@ -142,5 +142,11 @@ public class Funcionario {
     public Double calculardescontos(){
         return salarioBase * (1 - inss/100) * (1 - irrf/100);
     }
-    
+
+
+
+    @Override
+    public String toString() {
+        return "Funcionario [ CPF=" + cpf + ", nome=" + nome + "]";
+    }
 }
