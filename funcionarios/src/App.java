@@ -193,14 +193,23 @@ public class App {
                     }                
 
                     break;
-                case 4:
+                    case 4:
                     System.out.print("Digite o código do setor que quer adicionar:  ");
                     Integer codigoA = scanner.nextInt();
-
-                    System.out.print("Digite o CPF do funcionario ( 111.111.111-11 ): ");
+                    scanner.nextLine(); 
+                
+                    if (codigoA < 1 || codigoA > setores.size()) {
+                        System.out.println("Código inválido!");
+                        break;
+                    }
+                
+                    System.out.print("Digite o CPF do funcionario (111.111.111-11): ");
                     String novoCpf = scanner.nextLine();
-                    setores.get(codigoA).adicionarFuncionario(novoCpf);
+                
+                    setores.get(codigoA - 1).adicionarFuncionario(novoCpf);
+                    System.out.println("Funcionário adicionado ao setor com sucesso!");
                     break;
+                
             
                 case 5:
                     menu();
