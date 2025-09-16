@@ -8,6 +8,7 @@ public class Funcionario {
     private String genero;
     private Date dataNascimento;
     private String cpf;
+    private String setor;
     private String nome;
     private Double salarioBase;
     private Double inss;
@@ -21,7 +22,7 @@ public class Funcionario {
     
 
     public Funcionario(Integer dependentes, String estadoCivil, String genero, Date dataNascimento, String cpf,
-            String nome, Double salarioBase, Double inss, Double irrf, Double horasTrabalhadas) {
+            String nome, Double salarioBase, Double inss, Double irrf, Double horasTrabalhadas, String setor) {
         this.dependentes = dependentes;
         this.estadoCivil = estadoCivil;
         this.genero = genero;
@@ -32,6 +33,7 @@ public class Funcionario {
         this.inss = inss;
         this.irrf = irrf;
         this.horasTrabalhadas = horasTrabalhadas;
+        this.setor = setor;
     }
 
 
@@ -82,6 +84,14 @@ public class Funcionario {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSetor() {
+        return setor;
+    }
+
+    public void setSetor(String setor) {
+        this.setor = setor;
     }
 
     public Double getSalarioBase() {
