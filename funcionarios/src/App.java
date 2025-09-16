@@ -54,6 +54,11 @@ public class App {
             return;
         }
 
+        System.out.println("Digite o novo valor do vale transporte: ");
+        Integer novoTransporte = scanner.nextInt();
+        System.out.println("Digite o novo valor do vale alimentação: ");
+        Integer novoAlimentacao = scanner.nextInt();
+
         if (tipo == TipoPromocao.GERENTE) {
             Gerente gerente = new Gerente();
             gerente.setNome(funcionario.getNome());
@@ -64,6 +69,8 @@ public class App {
             gerente.setIrrf(funcionario.getIrrf());
             gerente.setSetor(funcionario.getSetor());
             gerente.setQuantidadeSubordinados(setor.getFuncionarios().size() - 1);
+            gerente.setValeAlimentacao(novoAlimentacao);
+            gerente.setValeTransporte(novoTransporte);
             gerente.setPercentualBonus(15);
 
             funcionarios.remove(funcionario);
@@ -81,6 +88,8 @@ public class App {
             diretor.setQuantidadeSubordinados(setor.getFuncionarios().size() - 1);
             diretor.setPercentualBonus(25);
             diretor.setParticipacaoLucros(2000);
+            diretor.setValeAlimentacao(novoAlimentacao);
+            diretor.setValeTransporte(novoTransporte);
 
             funcionarios.remove(funcionario);
             funcionarios.add(diretor);
@@ -112,6 +121,25 @@ public class App {
                     String nomeFunc = scanner.nextLine();
                     System.out.print("Digite o CPF: ");
                     String cpf = scanner.nextLine();
+
+                    Integer setorSelecionado = null;
+
+                    if (setores.size() > 0) {
+                        listaSetores();
+                        System.out.print("Digite o código do setor: ");
+                        int codigoA = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (codigoA < 1 || codigoA > setores.size()) {
+                            System.out.println("Código inválido!");
+                            break;
+                        }
+
+                        setorSelecionado = codigoA - 1;
+
+                        setores.get(codigoA - 1).adicionarFuncionario(cpf);
+
+                    }
                     System.out.print("Digite o salário base: ");
                     double salarioBase = scanner.nextDouble();
                     System.out.print("Digite as horas trabalhadas: ");
@@ -126,7 +154,7 @@ public class App {
                     double valeTransporte = scanner.nextDouble();
                     scanner.nextLine();
 
-                    FuncionarioClt novoFunc = new FuncionarioClt(valeAlimentacao, valeTransporte);
+                    FuncionarioClt novoFunc = new Diretor(valeAlimentacao, valeTransporte);
 
                     novoFunc.setNome(nomeFunc);
                     novoFunc.setCpf(cpf);
@@ -136,27 +164,24 @@ public class App {
                     novoFunc.setIrrf(irrf);
 
                     System.out.println("Setores disponíveis:");
-                    listaSetores();
-                    System.out.print("Digite o nome do setor: ");
-                    String nomeSetor = scanner.nextLine();
-                    Setor setorSelecionado = buscarSetorPorNome(nomeSetor);
 
                     if (setorSelecionado != null) {
-                        novoFunc.setSetor(setorSelecionado.getNome());
-                        setorSelecionado.adicionarFuncionario(cpf);
-                        funcionarios.add(novoFunc);
-                        System.out.println("Funcionário CLT criado com sucesso!");
-                    } else {
-                        System.out.println("Setor não encontrado. Funcionário não cadastrado.");
+                        novoFunc.setSetor(setores.get(setorSelecionado).getNome());
+
                     }
+
+                    funcionarios.add(novoFunc);
+                    System.out.println("Funcionário CLT criado com sucesso!");
                     break;
 
                 case 2:
                     promoverFuncionario(TipoPromocao.GERENTE);
+                    System.out.println("Funcionário promovido com sucesso!");
                     break;
 
                 case 3:
                     promoverFuncionario(TipoPromocao.DIRETOR);
+                    System.out.println("Funcionário promovido com sucesso!");
                     break;
 
                 case 4:
@@ -298,6 +323,8 @@ public class App {
 
             System.out.println();
         } while (opcao != 5);
+
+        scanner.close();
     }
 
     public static void menu() {
@@ -328,6 +355,7 @@ public class App {
 
             System.out.println();
         } while (opcao != 3);
+        scanner.close();
     }
 
     public static void main(String[] args) {

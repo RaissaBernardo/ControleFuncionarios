@@ -13,8 +13,8 @@ public class FuncionarioClt extends Funcionario{
     //construtor com parametro
     public FuncionarioClt(Integer dependentes, String estadoCivil, String genero, Date dataNascimento, String cpf,
             String nome, Double salarioBase, Double inss, Double irrf, Double horasTrabalhadas, double valeAlimentacao,
-            double valeTransporte) {
-        super(dependentes, estadoCivil, genero, dataNascimento, cpf, nome, salarioBase, inss, irrf, horasTrabalhadas);
+            double valeTransporte,String setor) {
+        super(dependentes, estadoCivil, genero, dataNascimento, cpf, nome, salarioBase, inss, irrf, horasTrabalhadas, setor);
         this.valeAlimentacao = valeAlimentacao;
         this.valeTransporte = valeTransporte;
     }
