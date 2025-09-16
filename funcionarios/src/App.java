@@ -194,23 +194,28 @@ public class App {
 
                     break;
                     case 4:
-                    System.out.print("Digite o código do setor que quer adicionar:  ");
-                    Integer codigoA = scanner.nextInt();
-                    scanner.nextLine(); 
-                
-                    if (codigoA < 1 || codigoA > setores.size()) {
-                        System.out.println("Código inválido!");
+                        try {
+                            System.out.print("Digite o código do setor que quer adicionar: ");
+                            int codigoA = scanner.nextInt();
+                            scanner.nextLine(); // consome o Enter do nextInt()
+
+                            if (codigoA < 1 || codigoA > setores.size()) {
+                                System.out.println("Código inválido!");
+                                break;
+                            }
+
+                            System.out.print("Digite o CPF do funcionario (ex: 111.111.111-11): ");
+                            String novoCpf = scanner.nextLine();
+
+                            setores.get(codigoA - 1).adicionarFuncionario(novoCpf);
+                            System.out.println("Funcionário adicionado ao setor com sucesso!");
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                            scanner.nextLine(); // limpar buffer em caso de erro
+                        }
                         break;
-                    }
-                
-                    System.out.print("Digite o CPF do funcionario (111.111.111-11): ");
-                    String novoCpf = scanner.nextLine();
-                
-                    setores.get(codigoA - 1).adicionarFuncionario(novoCpf);
-                    System.out.println("Funcionário adicionado ao setor com sucesso!");
-                    break;
-                
-            
+
                 case 5:
                     menu();
                     break;
