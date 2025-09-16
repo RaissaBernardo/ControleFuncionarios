@@ -90,42 +90,48 @@ public class App {
                     String novoCpf = scanner.nextLine();
                     setores.get(codigoA).adicionarFuncionario(novoCpf);
                     break;
-                case 5:
-                    Funcionario funcionario = null;
-
+                    case 5:
                     try {
+                        System.out.print("Digite o CPF do funcionário para visualizar o holerite: ");
+                        String cpfBusca = scanner.nextLine();
+                
+                        Funcionario funcionario = null;
                         for (Funcionario f : funcionarios) {
-                            if (f.getCpf().equals(cpf)) {
+                            if (f.getCpf().equals(cpfBusca)) {
                                 funcionario = f;
                                 break;
                             }
                         }
-                    } catch (Exception e) {
+                
                         if (funcionario == null) {
-                            System.out.println("Funcionário não encontrado!");
-                            return;
+                            throw new Exception("Funcionário não encontrado!");
                         }
-                    }
-
-                    double salarioLiquido = funcionario.calcularSalarioLiquido();
                 
-                    System.out.println("\n=== HOLERITE ===");
-                    System.out.println("Nome: " + funcionario.getNome());
-                    System.out.println("CPF: " + funcionario.getCpf());
-                    System.out.println("Cargo: " + (funcionario instanceof FuncionarioClt ? "Funcionário CLT" : "Outro Cargo"));
-                    System.out.println("-------------------------------------------------");
-                    System.out.println("Salário Base: R$ " + funcionario.getSalarioBase());
-                    System.out.println("INSS: " + funcionario.getInss());
-                    System.out.println("IRRF: " + funcionario.getIrrf());
-
-                    if (funcionario instanceof FuncionarioClt) { //o instaceof vai retornar um valor booleano
-                        FuncionarioClt cltFuncionario = (FuncionarioClt) funcionario;
-                        System.out.println("Vale Alimentação: R$ " + cltFuncionario.getValeAlimentacao());
-                        System.out.println("Vale Transporte: R$ " + cltFuncionario.getValeTransporte());
-                    }
+                        double salarioLiquido = funcionario.calcularSalarioLiquido();
                 
-                    System.out.println("-------------------------------------------------");
-                    System.out.println("Salário Líquido: R$ " + salarioLiquido);
+                        System.out.println("\n=== HOLERITE ===");
+                        System.out.println("Nome: " + funcionario.getNome());
+                        System.out.println("CPF: " + funcionario.getCpf());
+                        System.out.println("Cargo: " + (funcionario instanceof FuncionarioClt ? "Funcionário CLT" : "Outro Cargo"));
+                        System.out.println("-------------------------------------------------");
+                        System.out.println("Salário Base: R$ " + funcionario.getSalarioBase());
+                        System.out.println("INSS: " + funcionario.getInss());
+                        System.out.println("IRRF: " + funcionario.getIrrf());
+                
+                        if (funcionario instanceof FuncionarioClt) {
+                            FuncionarioClt cltFuncionario = (FuncionarioClt) funcionario;
+                            System.out.println("Vale Alimentação: R$ " + cltFuncionario.getValeAlimentacao());
+                            System.out.println("Vale Transporte: R$ " + cltFuncionario.getValeTransporte());
+                        }
+                
+                        System.out.println("-------------------------------------------------");
+                        System.out.println("Salário Líquido: R$ " + salarioLiquido);
+                
+                    } catch (Exception e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                    break;
+                
                 case 6:
                     menu();
                     break;
@@ -150,8 +156,8 @@ public class App {
             System.out.println("4 - Adicionar funcionario a um setor.");
             System.out.println("5 - Voltar");
             System.out.print("Escolha uma opção: ");
-
             opcao = scanner.nextInt();
+            scanner.nextLine(); //para consumir o buffer e fncionar
 
             switch (opcao) {
                 case 1:
@@ -167,10 +173,10 @@ public class App {
                         System.out.println("Código: " + (i + 1) + " - Setor: " + setor.getNome());
                     }
                     break;
-                case 3:
+                    case 3:
                     System.out.print("Digite o código do setor que quer visualizar:  ");
                     Integer codigoV = scanner.nextInt();
-
+                
                     System.out.println("Funcionários do setor " + setores.get(codigoV).getNome() + ":");
                     for (String cpf : setores.get(codigoV).getFuncionarios()) {
                         for (Funcionario f : funcionarios) {
@@ -179,13 +185,14 @@ public class App {
                                 break;
                             }
                         }
-                    }
+                    }                
 
                     break;
                 case 4:
                     System.out.print("Digite o código do setor que quer adicionar:  ");
                     Integer codigoA = scanner.nextInt();
 
+                    scanner.nextLine();
                     System.out.print("Digite o CPF do funcionario ( 111.111.111-11 ): ");
                     String novoCpf = scanner.nextLine();
                     setores.get(codigoA).adicionarFuncionario(novoCpf);
@@ -202,25 +209,25 @@ public class App {
         scanner.close();
     }
 
-   public static void menu() {
+    public static void menu() {
         Scanner scanner = new Scanner(System.in);
         int opcao = 0;
-
+    
         do {
             System.out.println("=== DASHBOARD DO RH ===");
-            System.out.println("1 - Setores.");
+            System.out.println("1 - Setores");
             System.out.println("2 - Funcionarios");
             System.out.println("3 - Sair");
             System.out.print("Escolha uma opção: ");
-
+    
             opcao = scanner.nextInt();
-
+    
             switch (opcao) {
                 case 1:
-                    
+                    menuSetores(); 
                     break;
                 case 2:
-                    System.out.println("Você escolheu a Opção 2");
+                    menuFuncionarios(); 
                     break;
                 case 3:
                     System.out.println("Saindo...");
@@ -230,11 +237,12 @@ public class App {
             }
             System.out.println();
         } while (opcao != 3);
-
+    
         scanner.close();
     }
+    
 
     public static void main(String[] args) throws Exception {
-
+        menu();
     }
 }
