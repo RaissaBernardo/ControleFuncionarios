@@ -28,6 +28,7 @@ public class App {
             switch (opcao) {
                 case 1:           
                 System.out.println("--> INSERINDO FUNCIONÁRIO <--");
+                scanner.nextLine();
             
                 System.out.print("Digite o nome do funcionário: ");
                 String nomeFunc = scanner.nextLine();
@@ -83,15 +84,19 @@ public class App {
 
                     break;
                 case 4:
-                    System.out.print("Digite o código do setor que quer adicionar:  ");
-                    Integer codigoA = scanner.nextInt();
-
-                    System.out.print("Digite o CPF do funcionario ( 111.111.111-11 ): ");
-                    String novoCpf = scanner.nextLine();
-                    setores.get(codigoA).adicionarFuncionario(novoCpf);
+                System.out.println("=== Funcionários cadastrados ===");
+                    if (funcionarios.isEmpty()) {
+                        System.out.println("Nenhum funcionário cadastrado ainda.");
+                    } else {
+                        for (Funcionario f : funcionarios) {
+                            System.out.println("- " + f.toString());
+                        }
+                    }
                     break;
-                    case 5:
+
+                case 5:
                     try {
+                        scanner.nextLine();
                         System.out.print("Digite o CPF do funcionário para visualizar o holerite: ");
                         String cpfBusca = scanner.nextLine();
                 
@@ -173,7 +178,7 @@ public class App {
                         System.out.println("Código: " + (i + 1) + " - Setor: " + setor.getNome());
                     }
                     break;
-                    case 3:
+                case 3:
                     System.out.print("Digite o código do setor que quer visualizar:  ");
                     Integer codigoV = scanner.nextInt();
                 
@@ -192,11 +197,11 @@ public class App {
                     System.out.print("Digite o código do setor que quer adicionar:  ");
                     Integer codigoA = scanner.nextInt();
 
-                    scanner.nextLine();
                     System.out.print("Digite o CPF do funcionario ( 111.111.111-11 ): ");
                     String novoCpf = scanner.nextLine();
                     setores.get(codigoA).adicionarFuncionario(novoCpf);
                     break;
+            
                 case 5:
                     menu();
                     break;
