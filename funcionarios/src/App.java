@@ -7,7 +7,7 @@ import entity.TipoPromocao;
 import entity.Funcionario;
 import entity.FuncionarioClt;
 import entity.Diretor;
-import entity.Gerente;
+import entity.Gerente;//mmmm
 
 public class App {
 
