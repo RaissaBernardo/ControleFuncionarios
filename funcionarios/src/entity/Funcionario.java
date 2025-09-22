@@ -15,11 +15,9 @@ public class Funcionario {
     private Double irrf;
     private Double horasTrabalhadas;
 
-    public Funcionario(){
+    public Funcionario() {
 
     }
-
-    
 
     public Funcionario(Integer dependentes, String estadoCivil, String genero, Date dataNascimento, String cpf,
             String nome, Double salarioBase, Double inss, Double irrf, Double horasTrabalhadas, String setor) {
@@ -35,8 +33,6 @@ public class Funcionario {
         this.horasTrabalhadas = horasTrabalhadas;
         this.setor = setor;
     }
-
-
 
     public Integer getDependentes() {
         return dependentes;
@@ -126,7 +122,7 @@ public class Funcionario {
         this.horasTrabalhadas = horasTrabalhadas;
     }
 
-    public void listarDados(){
+    public void listarDados() {
         System.out.println("Nome: " + nome);
         System.out.println("CPF: " + cpf);
         System.out.println("Salário Base: " + salarioBase);
@@ -135,15 +131,23 @@ public class Funcionario {
         System.out.println("Alíquota do IRRF: " + irrf);
     }
 
-    public Double calcularSalarioLiquido(){
-        return calculardescontos();
+    public Double valorInss() {
+        return salarioBase * (inss / 100);
     }
 
-    public Double calculardescontos(){
-        return salarioBase * (1 - inss/100) * (1 - irrf/100);
+    public Double valorIrrf() {
+        return (salarioBase - valorInss()) * (irrf / 100);
     }
 
+    public Double calcularSalarioLiquido() {
+        return salarioBase - valorInss() - valorIrrf();
+    }
 
+    /*
+     * public Double calculardescontos() {
+     * return (salarioBase * (1 - irrf / 100)) * (1 - inss / 100);
+     * }
+     */
 
     @Override
     public String toString() {

@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+
 import entity.Setor;
 import entity.TipoPromocao;
 import entity.Funcionario;
@@ -9,6 +11,7 @@ import entity.Gerente;
 
 public class App {
 
+    static Scanner scanner = new Scanner(System.in);
     static ArrayList<Setor> setores = new ArrayList<>();
     static ArrayList<Funcionario> funcionarios = new ArrayList<>();
 
@@ -38,7 +41,6 @@ public class App {
     }
 
     public static void promoverFuncionario(TipoPromocao tipo) {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Digite o CPF (111.111.111-11) do funcionário: ");
         String cpf = scanner.nextLine();
         Funcionario funcionario = buscarFuncionarioPorCpf(cpf);
@@ -50,7 +52,7 @@ public class App {
 
         Setor setor = buscarSetorPorNome(funcionario.getSetor());
         if (setor == null) {
-            System.out.println("Setor do funcionário não encontrado.");
+            System.out.println("Funcionario sem setor, cadastre-o em um setor antes da promoção");
             return;
         }
 
@@ -76,6 +78,7 @@ public class App {
             funcionarios.remove(funcionario);
             funcionarios.add(gerente);
             System.out.println("Funcionário promovido a GERENTE.");
+
         } else if (tipo == TipoPromocao.DIRETOR) {
             Diretor diretor = new Diretor();
             diretor.setNome(funcionario.getNome());
@@ -98,7 +101,6 @@ public class App {
     }
 
     public static void menuFuncionarios() {
-        Scanner scanner = new Scanner(System.in);
         int opcao = 0;
 
         do {
@@ -154,8 +156,15 @@ public class App {
                     double valeTransporte = scanner.nextDouble();
                     scanner.nextLine();
 
-                    FuncionarioClt novoFunc = new Diretor(valeAlimentacao, valeTransporte);
+                    /*
+                     * Funcionario func = (Funcionario) new Funcionario(setorSelecionado, cpf, cpf,
+                     * null, cpf,
+                     * nomeFunc, null, null, null, null, cpf);
+                     * 
+                     * Diretor novoFunc = (Diretor) func;
+                     */
 
+                    Funcionario novoFunc = new FuncionarioClt(valeAlimentacao, valeTransporte);
                     novoFunc.setNome(nomeFunc);
                     novoFunc.setCpf(cpf);
                     novoFunc.setSalarioBase(salarioBase);
@@ -176,12 +185,12 @@ public class App {
 
                 case 2:
                     promoverFuncionario(TipoPromocao.GERENTE);
-                    System.out.println("Funcionário promovido com sucesso!");
+                    // System.out.println("Funcionário promovido com sucesso!");
                     break;
 
                 case 3:
                     promoverFuncionario(TipoPromocao.DIRETOR);
-                    System.out.println("Funcionário promovido com sucesso!");
+                    // System.out.println("Funcionário promovido com sucesso!");
                     break;
 
                 case 4:
@@ -212,23 +221,38 @@ public class App {
                     System.out.println("CPF: " + funcionario.getCpf());
                     System.out.println("Cargo: " + funcionario.getClass().getSimpleName());
                     System.out.println("-------------------------------------------------");
-                    System.out.println("Salário Base: R$ " + funcionario.getSalarioBase());
-                    System.out.println("INSS: " + funcionario.getInss());
-                    System.out.println("IRRF: " + funcionario.getIrrf());
+                    System.out.printf("Salário Base: R$ %.2f%n", funcionario.getSalarioBase());
+                    /*
+                     * if (funcionario.getClass().getSimpleName() == "Gerente") {
+                     * System.out.printf("Bônus: R$ %.2f%n", funcionario.calculoBonus());
+                     * }
+                     */
+                    System.out.printf("INSS: R$ %.2f%n", funcionario.valorInss());
+                    System.out.printf("IRRF: R$ %.2f%n", funcionario.valorIrrf());
 
                     if (funcionario instanceof FuncionarioClt) {
                         FuncionarioClt clt = (FuncionarioClt) funcionario;
-                        System.out.println("Vale Alimentação: R$ " + clt.getValeAlimentacao());
-                        System.out.println("Vale Transporte: R$ " + clt.getValeTransporte());
+                        System.out.printf("Vale Alimentação: R$ %.2f%n", clt.getValeAlimentacao());
+                        System.out.printf("Vale Transporte: R$ %.2f%n", clt.getValeTransporte());
+                    }
+
+                    else if (funcionario instanceof Gerente) {
+                        Gerente gerente = (Gerente) funcionario;
+                        System.out.printf("Bônus Gerente: R$ %.2f%n", gerente.calculoBonus());
+                    }
+
+                    else if (funcionario instanceof Diretor) {
+                        Diretor diretor = (Diretor) funcionario;
+                        System.out.printf("Bônus Diretor: R$ %.2f%n", diretor.calculoBonus());
+                        System.out.printf("Partipação Lucro: R$ %.2f%n", diretor.getParticipacaoLucros());
                     }
 
                     System.out.println("-------------------------------------------------");
-                    System.out.println("Salário Líquido: R$ " + salarioLiquido);
+                    System.out.printf("Salário Líquido: R$ %.2f%n ", salarioLiquido);
                     break;
 
                 case 6:
-                    menu();
-                    break;
+                    return;
 
                 default:
                     System.out.println("Opção inválida, tente novamente.");
@@ -236,10 +260,10 @@ public class App {
 
             System.out.println();
         } while (opcao != 6);
+
     }
 
     public static void menuSetores() {
-        Scanner scanner = new Scanner(System.in);
         int opcao;
 
         do {
@@ -314,8 +338,7 @@ public class App {
                     break;
 
                 case 5:
-                    menu();
-                    break;
+                    return;
 
                 default:
                     System.out.println("Opção inválida.");
@@ -324,41 +347,47 @@ public class App {
             System.out.println();
         } while (opcao != 5);
 
-        scanner.close();
     }
 
     public static void menu() {
-        Scanner scanner = new Scanner(System.in);
         int opcao;
 
         do {
-            System.out.println("=== DASHBOARD DO RH ===");
-            System.out.println("1 - Setores");
-            System.out.println("2 - Funcionários");
-            System.out.println("3 - Sair");
-            System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
+            try {
+                System.out.println("=== DASHBOARD DO RH ===");
+                System.out.println("1 - Setores");
+                System.out.println("2 - Funcionários");
+                System.out.println("3 - Sair");
+                System.out.print("Escolha uma opção: ");
+                opcao = scanner.nextInt();
 
-            switch (opcao) {
-                case 1:
-                    menuSetores();
-                    break;
-                case 2:
-                    menuFuncionarios();
-                    break;
-                case 3:
-                    System.out.println("Saindo...");
-                    break;
-                default:
-                    System.out.println("Opção inválida, tente novamente.");
+                switch (opcao) {
+                    case 1:
+                        menuSetores();
+                        break;
+                    case 2:
+                        menuFuncionarios();
+                        break;
+                    case 3:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida, tente novamente.");
+                }
+
+                System.out.println();
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida, digite apenas números");
+                scanner.nextLine();
+                opcao = -1;
             }
-
-            System.out.println();
         } while (opcao != 3);
         scanner.close();
     }
 
     public static void main(String[] args) {
-        menu();
+        try (Scanner scanner = new Scanner(System.in)) {
+            menu();
+        }
     }
 }
